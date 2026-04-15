@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+/* =========================================================
+   브릿지옥션 (Bridge Auction) — Global Styles
+   Tailwind CSS v4 @theme 디렉티브로 브랜드 컬러 등록
+   ========================================================= */
+
+@theme {
+  /* ----------------------------
+     Brand Colors
+     ---------------------------- */
+  --color-brand-primary:   #0F2B5B;  /* Deep Navy     */
+  --color-brand-secondary: #1E5BC6;  /* Royal Blue    */
+  --color-brand-accent:    #3B82F6;  /* Bright Blue   */
+  --color-brand-light:     #EFF6FF;  /* Ice Blue      */
+  --color-brand-dark:      #0A1628;  /* Dark Navy     */
+
+  /* ----------------------------
+     Text Colors (Slate 계열)
+     ---------------------------- */
+  --color-text-primary:   #1E293B;
+  --color-text-secondary: #94A3B8;
+
+  /* ----------------------------
+     Fonts
+     ---------------------------- */
+  --font-sans: "Pretendard Variable", "Noto Sans KR", -apple-system,
+               BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* ----------------------------
+     Animations (Intersection Observer용 fade-in)
+     ---------------------------- */
+  --animate-fade-in:    fade-in 0.6s ease-out forwards;
+  --animate-fade-in-up: fade-in-up 0.7s ease-out forwards;
+  --animate-fade-in-left: fade-in-left 0.7s ease-out forwards;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0);    }
+  }
+
+  @keyframes fade-in-left {
+    from { opacity: 0; transform: translateX(-24px); }
+    to   { opacity: 1; transform: translateX(0);     }
+  }
+
+  /* ----------------------------
+     Partners 마퀴 슬라이더
+     ---------------------------- */
+  --animate-marquee:         marquee-ltr 32s linear infinite;
+  --animate-marquee-reverse: marquee-rtl 32s linear infinite;
+
+  @keyframes marquee-ltr {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @keyframes marquee-rtl {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+}
+
+/* =========================================================
+   Base Styles
+   ========================================================= */
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #ffffff;
+  color: var(--color-text-primary);
+}
+
+/* =========================================================
+   Custom Scrollbar — 네이비 테마
+   ========================================================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-secondary);
+  border-radius: 9999px;
+  border: 2px solid #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-primary);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-brand-secondary) #f1f5f9;
+}
+
+/* =========================================================
+   Intersection Observer — fade-in 유틸리티 클래스
+   ========================================================= */
+
+/* 초기 상태: 숨김 */
+.fade-hidden {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* JS가 is-visible 클래스를 추가하면 노출 */
+.fade-hidden.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 방향 변형 */
+.fade-hidden.from-left {
+  transform: translateX(-24px);
+}
+.fade-hidden.from-left.is-visible {
+  transform: translateX(0);
+}
+
+.fade-hidden.from-right {
+  transform: translateX(24px);
+}
+.fade-hidden.from-right.is-visible {
+  transform: translateX(0);
+}
+
+/* 지연 유틸리티 */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
