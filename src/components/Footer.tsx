@@ -69,9 +69,9 @@ export default function Footer() {
               {/* 사업자 정보 */}
               <div className="space-y-1.5">
                 {[
-                  { label: "대표자",    value: "대표자명" },
-                  { label: "사업자등록번호", value: "000-00-00000" },
-                  { label: "통신판매업",     value: "제 0000-서울금천-0000호" },
+                  { label: "주소",          value: "서울시 금천구 가산디지털2로 70, 1803호" },
+                  { label: "사업자등록번호", value: "539-86-01777" },
+                  { label: "통신판매업신고", value: "제2023-서울금천-0580호" },
                 ].map((info) => (
                   <p key={info.label} className="text-slate-500 text-xs flex gap-2">
                     <span className="text-slate-600 shrink-0">{info.label}</span>
