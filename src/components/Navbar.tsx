@@ -24,14 +24,16 @@ const NAV_SECTION_IDS = NAV_ITEMS.map((item) => item.href.slice(1));
    ========================================================= */
 const navVariants = {
   transparent: {
-    backgroundColor: "rgba(0, 0, 0, 0)",
+    backgroundColor: "#0F2B5B",
     backdropFilter: "blur(0px)",
     borderBottomColor: "rgba(255, 255, 255, 0)",
+    boxShadow: "none",
   },
   solid: {
     backgroundColor: "#0F2B5B",
     backdropFilter: "blur(12px)",
     borderBottomColor: "rgba(30, 91, 198, 0.3)",
+    boxShadow: "0 2px 24px rgba(10, 22, 40, 0.45)",
   },
 };
 

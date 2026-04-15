@@ -1,32 +1,35 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Building2, ChevronRight, Pause, Play } from "lucide-react";
 
 /* =========================================================
-   파트너사 플레이스홀더 데이터 (추후 실제 로고로 교체)
+   파트너사 데이터
    ========================================================= */
 interface Partner {
   id: number;
   name: string;
   category: string;
-  width: string; // 박스 너비 — 로고별 시각 다양성 연출
+  logo: string;   // /partners/*.png
+  width: number;  // 표시 너비 (px) — 로고 비율 맞춤
+  height: number;
 }
 
 const PARTNERS: Partner[] = [
-  { id: 1,  name: "삼성SDS",   category: "IT서비스",  width: "w-36" },
-  { id: 2,  name: "LG CNS",    category: "IT서비스",  width: "w-28" },
-  { id: 3,  name: "SK텔레콤",  category: "통신",      width: "w-32" },
-  { id: 4,  name: "KT",        category: "통신",      width: "w-20" },
-  { id: 5,  name: "현대자동차", category: "제조",     width: "w-36" },
-  { id: 6,  name: "한국전력",  category: "에너지",    width: "w-32" },
-  { id: 7,  name: "NH농협은행", category: "금융",     width: "w-36" },
-  { id: 8,  name: "신한은행",  category: "금융",      width: "w-32" },
-  { id: 9,  name: "롯데그룹",  category: "유통",      width: "w-28" },
-  { id: 10, name: "GS칼텍스",  category: "에너지",   width: "w-32" },
-  { id: 11, name: "포스코ICT", category: "IT서비스",  width: "w-32" },
-  { id: 12, name: "CJ대한통운", category: "물류",    width: "w-36" },
+  { id: 1,  name: "삼성SDS",    category: "IT서비스",  logo: "/partners/samsung-sds.png",  width: 120, height: 15  },
+  { id: 2,  name: "LG CNS",     category: "IT서비스",  logo: "/partners/lg-cns.png",        width: 90,  height: 22  },
+  { id: 3,  name: "SK텔레콤",   category: "통신",      logo: "/partners/sk-telecom.png",    width: 80,  height: 32  },
+  { id: 4,  name: "KT",         category: "통신",      logo: "/partners/kt.png",            width: 52,  height: 42  },
+  { id: 5,  name: "현대자동차", category: "제조",      logo: "/partners/hyundai.png",       width: 110, height: 14  },
+  { id: 6,  name: "한국전력",   category: "에너지",    logo: "/partners/kepco.png",         width: 60,  height: 38  },
+  { id: 7,  name: "NH농협은행", category: "금융",      logo: "/partners/nh-bank.png",       width: 90,  height: 36  },
+  { id: 8,  name: "신한은행",   category: "금융",      logo: "/partners/shinhan.png",       width: 100, height: 19  },
+  { id: 9,  name: "롯데그룹",   category: "유통",      logo: "/partners/lotte.png",         width: 100, height: 20  },
+  { id: 10, name: "GS칼텍스",   category: "에너지",    logo: "/partners/gs-caltex.png",     width: 100, height: 29  },
+  { id: 11, name: "포스코DX",   category: "IT서비스",  logo: "/partners/posco-dx.png",      width: 100, height: 27  },
+  { id: 12, name: "CJ대한통운", category: "물류",      logo: "/partners/cj-logistics.png",  width: 90,  height: 36  },
 ];
 
 /* 실적 뱃지 */
@@ -104,17 +107,13 @@ export default function Partners() {
         {/* 왼쪽 페이드 마스크 */}
         <div
           className="absolute left-0 top-0 bottom-0 w-24 sm:w-40 z-10 pointer-events-none"
-          style={{
-            background: "linear-gradient(to right, #ffffff 0%, transparent 100%)",
-          }}
+          style={{ background: "linear-gradient(to right, #ffffff 0%, transparent 100%)" }}
           aria-hidden="true"
         />
         {/* 오른쪽 페이드 마스크 */}
         <div
           className="absolute right-0 top-0 bottom-0 w-24 sm:w-40 z-10 pointer-events-none"
-          style={{
-            background: "linear-gradient(to left, #ffffff 0%, transparent 100%)",
-          }}
+          style={{ background: "linear-gradient(to left, #ffffff 0%, transparent 100%)" }}
           aria-hidden="true"
         />
 
@@ -125,7 +124,7 @@ export default function Partners() {
           aria-label="파트너사 로고 슬라이더"
         >
           <div
-            className={`flex gap-5 animate-marquee py-3 ${isPaused ? "[animation-play-state:paused]" : ""}`}
+            className={`flex gap-6 animate-marquee py-4 ${isPaused ? "[animation-play-state:paused]" : ""}`}
             aria-live="off"
           >
             {doubled.map((partner, i) => (
@@ -150,7 +149,7 @@ export default function Partners() {
       </div>
 
       {/* ── 보조 정보 ──────────────────────────────────── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-14">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -188,22 +187,27 @@ export default function Partners() {
 }
 
 /* =========================================================
-   파트너 카드 (개별 로고 플레이스홀더)
+   파트너 카드 — 실제 로고 이미지
    ========================================================= */
 function PartnerCard({ partner }: { partner: Partner }) {
   return (
     <div
-      className={`${partner.width} h-20 shrink-0 flex flex-col items-center justify-center rounded-xl bg-slate-50 border border-slate-200 hover:border-brand-secondary/40 hover:bg-brand-light hover:shadow-sm transition-all duration-300 cursor-default px-4 gap-1`}
+      className="w-36 h-20 shrink-0 flex flex-col items-center justify-center rounded-xl bg-white border border-slate-200 hover:border-brand-secondary/40 hover:shadow-md transition-all duration-300 cursor-default px-5 gap-2"
       title={`${partner.name} — ${partner.category}`}
     >
-      {/* 로고 플레이스홀더 영역 */}
-      <div className="w-full h-7 rounded bg-slate-200/80 flex items-center justify-center">
-        <span className="text-slate-400 text-[9px] font-semibold tracking-wider uppercase">
-          LOGO
-        </span>
+      {/* 실제 로고 */}
+      <div className="flex items-center justify-center w-full" style={{ height: 36 }}>
+        <Image
+          src={partner.logo}
+          alt={`${partner.name} 로고`}
+          width={partner.width}
+          height={partner.height}
+          className="object-contain max-h-9 w-auto"
+          unoptimized
+        />
       </div>
       {/* 회사명 */}
-      <span className="text-slate-500 text-[10px] font-medium text-center leading-tight truncate w-full text-center">
+      <span className="text-slate-400 text-[10px] font-medium text-center leading-tight truncate w-full">
         {partner.name}
       </span>
     </div>
