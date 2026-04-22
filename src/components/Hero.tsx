@@ -250,7 +250,7 @@ export default function Hero() {
           className="flex flex-wrap items-center justify-center gap-6 sm:gap-10"
         >
           {[
-            { value: "10+",  label: "년 업력"        },
+            { value: "5+",   label: "년 업력"        },
             { value: "300+", label: "완료 프로젝트"  },
             { value: "99%",  label: "고객 만족도"    },
           ].map((stat) => (

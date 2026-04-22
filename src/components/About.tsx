@@ -8,21 +8,21 @@ import { CheckCircle2, Building2, Award } from "lucide-react";
    데이터 상수
    ========================================================= */
 const STATS = [
+  { value: 6,   suffix: "+", label: "년 업력",     desc: "2020년 법인 설립" },
+  { value: 5,   suffix: "개", label: "사업 종목",   desc: "소프트웨어·통신·부동산 등" },
   { value: 500, suffix: "+", label: "프로젝트 수행", desc: "누적 완료 건수" },
-  { value: 200, suffix: "+", label: "고객사",        desc: "국내외 파트너"  },
-  { value: 50,  suffix: "+", label: "전문 인력",     desc: "보안·IT 전문가" },
-  { value: 15,  suffix: "+", label: "보안 인증",     desc: "공인 인증 보유" },
+  { value: 200, suffix: "+", label: "고객사",       desc: "국내외 파트너" },
 ];
 
 const HISTORY = [
-  { year: "2024", text: "정보보안 컨설팅 사업부 신설 및 ISMS 인증 취득" },
+  { year: "2024", text: "정보보안 컨설팅 사업부 신설" },
+  { year: "2023", text: "해외주식노트 · 부동산경매노트 서비스 출시" },
   { year: "2022", text: "통신사 부가서비스 사업 공식 파트너십 체결" },
-  { year: "2020", text: "IT SI/NI 사업 본격 확대 — 전문 인력 50명 달성" },
-  { year: "2015", text: "브릿지옥션 법인 설립" },
+  { year: "2020", text: "주식회사 브릿지옥션 법인 설립 (3월)" },
 ];
 
 const STRENGTHS = [
-  "KISA 인증 정보보안 컨설팅 역량",
+  "전문가 기반 정보보안 컨설팅 역량",
   "통신사 공식 부가서비스 파트너",
   "SI/NI 원스톱 설계·구축·운영",
   "24/7 즉각 기술 지원 체계",
@@ -218,7 +218,7 @@ export default function About() {
 
           {/* ── 오른쪽: 숫자 카운터 카드 ─────────────────── */}
           <div>
-            {/* 인증 뱃지 */}
+            {/* 사업자 뱃지 */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -228,7 +228,7 @@ export default function About() {
             >
               <Award size={18} className="text-brand-accent shrink-0" />
               <span className="text-brand-primary text-sm font-semibold">
-                KISA · ISMS · ISO 27001 인증 보유
+                주식회사 브릿지옥션 · 사업자등록번호 539-86-01777
               </span>
             </motion.div>
 

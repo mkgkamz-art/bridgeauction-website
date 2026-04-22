@@ -11,7 +11,7 @@ const VALUES = [
   {
     icon: Shield,
     title: "보안 전문성",
-    desc: "KISA, ISMS 인증 기반의 체계적인 보안 컨설팅",
+    desc: "전문가 기반의 체계적인 보안 컨설팅 및 솔루션 제공",
     detail:
       "국가공인 보안 기관과 협력하여 기업 환경에 최적화된 보안 아키텍처를 설계합니다.",
     accent: "#3B82F6",
