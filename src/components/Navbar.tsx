@@ -13,7 +13,6 @@ const NAV_ITEMS: NavItem[] = [
   { label: "회사소개", href: "#about"    },
   { label: "서비스",   href: "#services" },
   { label: "사업영역", href: "#business" },
-  { label: "프로세스", href: "#process"  },
   { label: "문의하기", href: "#contact"  },
 ];
 
