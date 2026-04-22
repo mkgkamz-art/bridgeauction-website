@@ -8,6 +8,11 @@ import type { LucideIcon } from "lucide-react";
 /* =========================================================
    타입
    ========================================================= */
+interface ServiceGroup {
+  name: string;
+  items: string[];
+}
+
 interface ServiceData {
   id: string;
   icon: LucideIcon;
@@ -16,6 +21,7 @@ interface ServiceData {
   subtitle: string;
   desc: string;
   items: string[];
+  groups?: ServiceGroup[];   // 그룹 구조 패널용 (optional)
   accentClass: string;       // 카드 hover 테두리
   bgClass: string;           // 아이콘 배경 (비활성)
 }
@@ -65,15 +71,21 @@ const SERVICES: ServiceData[] = [
     icon: Smartphone,
     tag: "Telecom VAS",
     title: "통신사 부가서비스",
-    subtitle: "통신 기반 스마트 비즈니스 환경을 구현합니다",
-    desc: "이동통신 3사 공식 파트너로서 기업 전용 통신 솔루션과 부가서비스를 최적 조건으로 공급합니다.",
+    subtitle: "해외주식노트 · 부동산경매노트 프리미엄 구독 서비스",
+    desc: "SKT 공식 파트너로서 통신요금과 통합 청구되는 프리미엄 구독 서비스를 제공합니다. 전문가 분석 리포트와 빅데이터 기반 경매 정보로 스마트한 투자를 지원합니다.",
     items: [
-      "기업 전용 모바일 솔루션",
-      "IoT 통신 서비스 구축",
-      "유무선 통합 커뮤니케이션 (UC)",
-      "기업 인터넷 전용회선",
-      "클라우드 PBX / IP 전화",
-      "MVNO / 알뜰폰 사업 지원",
+      "일일 리포트", "종목 분석", "시장 뉴스 큐레이션",
+      "일 2회 경매 추천", "권리분석", "경공매 전문가 의견",
+    ],
+    groups: [
+      {
+        name: "해외주식노트",
+        items: ["일일 리포트", "종목 분석", "시장 뉴스 큐레이션"],
+      },
+      {
+        name: "부동산경매노트",
+        items: ["일 2회 경매 추천", "권리분석", "경공매 전문가 의견"],
+      },
     ],
     accentClass: "hover:border-sky-400/50",
     bgClass: "bg-sky-50",
@@ -348,45 +360,85 @@ export default function Services() {
                   <div className="flex items-center gap-2 mb-6">
                     <span className="w-1 h-4 rounded-full bg-brand-secondary" />
                     <p className="text-text-primary text-xs font-bold tracking-[0.14em] uppercase">
-                      서비스 목록
+                      {active.groups ? "서비스 구성" : "서비스 목록"}
                     </p>
                   </div>
 
-                  <motion.ul
-                    variants={listContainerVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="grid grid-cols-1 sm:grid-cols-2 gap-3"
-                  >
-                    {active.items.map((item, i) => (
-                      <motion.li
-                        key={item}
-                        variants={listItemVariants}
-                        className="group flex items-start gap-3 p-4 rounded-xl bg-white border border-slate-100 hover:border-brand-accent/40 hover:shadow-sm transition-all duration-200 cursor-default"
-                      >
-                        {/* 번호 + 아이콘 */}
-                        <div className="relative shrink-0 mt-0.5">
-                          <div className="w-7 h-7 rounded-lg bg-brand-light flex items-center justify-center group-hover:bg-brand-secondary/10 transition-colors duration-200">
-                            <ChevronRight
-                              size={14}
-                              className="text-brand-secondary group-hover:text-brand-accent transition-colors duration-200 group-hover:translate-x-0.5 transform"
-                            />
+                  {active.groups ? (
+                    /* ── 그룹형 렌더링 (통신사 부가서비스) ── */
+                    <motion.div
+                      variants={listContainerVariants}
+                      initial="hidden"
+                      animate="visible"
+                      className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+                    >
+                      {active.groups.map((group) => (
+                        <div key={group.name}>
+                          {/* 그룹 헤더 */}
+                          <div className="flex items-center gap-2 mb-3 pb-2.5 border-b-2 border-brand-secondary/30">
+                            <span className="w-2 h-2 rounded-full bg-brand-secondary shrink-0" />
+                            <span className="text-brand-secondary text-sm font-bold">{group.name}</span>
                           </div>
-                          {/* 번호 뱃지 */}
-                          <span className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 rounded-full bg-brand-primary flex items-center justify-center">
-                            <span className="text-white text-[7px] font-bold leading-none">
-                              {i + 1}
-                            </span>
-                          </span>
+                          {/* 그룹 아이템 */}
+                          <ul className="space-y-2">
+                            {group.items.map((item, i) => (
+                              <motion.li
+                                key={item}
+                                variants={listItemVariants}
+                                className="group flex items-start gap-3 p-4 rounded-xl bg-white border border-slate-100 hover:border-brand-accent/40 hover:shadow-sm transition-all duration-200 cursor-default"
+                              >
+                                <div className="relative shrink-0 mt-0.5">
+                                  <div className="w-7 h-7 rounded-lg bg-brand-light flex items-center justify-center group-hover:bg-brand-secondary/10 transition-colors duration-200">
+                                    <ChevronRight
+                                      size={14}
+                                      className="text-brand-secondary group-hover:text-brand-accent transition-colors duration-200 group-hover:translate-x-0.5 transform"
+                                    />
+                                  </div>
+                                  <span className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 rounded-full bg-brand-primary flex items-center justify-center">
+                                    <span className="text-white text-[7px] font-bold leading-none">{i + 1}</span>
+                                  </span>
+                                </div>
+                                <span className="text-text-secondary text-sm leading-snug group-hover:text-text-primary transition-colors duration-200">
+                                  {item}
+                                </span>
+                              </motion.li>
+                            ))}
+                          </ul>
                         </div>
-
-                        {/* 텍스트 */}
-                        <span className="text-text-secondary text-sm leading-snug group-hover:text-text-primary transition-colors duration-200">
-                          {item}
-                        </span>
-                      </motion.li>
-                    ))}
-                  </motion.ul>
+                      ))}
+                    </motion.div>
+                  ) : (
+                    /* ── 기존 플랫 리스트 렌더링 ── */
+                    <motion.ul
+                      variants={listContainerVariants}
+                      initial="hidden"
+                      animate="visible"
+                      className="grid grid-cols-1 sm:grid-cols-2 gap-3"
+                    >
+                      {active.items.map((item, i) => (
+                        <motion.li
+                          key={item}
+                          variants={listItemVariants}
+                          className="group flex items-start gap-3 p-4 rounded-xl bg-white border border-slate-100 hover:border-brand-accent/40 hover:shadow-sm transition-all duration-200 cursor-default"
+                        >
+                          <div className="relative shrink-0 mt-0.5">
+                            <div className="w-7 h-7 rounded-lg bg-brand-light flex items-center justify-center group-hover:bg-brand-secondary/10 transition-colors duration-200">
+                              <ChevronRight
+                                size={14}
+                                className="text-brand-secondary group-hover:text-brand-accent transition-colors duration-200 group-hover:translate-x-0.5 transform"
+                              />
+                            </div>
+                            <span className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 rounded-full bg-brand-primary flex items-center justify-center">
+                              <span className="text-white text-[7px] font-bold leading-none">{i + 1}</span>
+                            </span>
+                          </div>
+                          <span className="text-text-secondary text-sm leading-snug group-hover:text-text-primary transition-colors duration-200">
+                            {item}
+                          </span>
+                        </motion.li>
+                      ))}
+                    </motion.ul>
+                  )}
 
                   {/* 하단 메모 */}
                   <motion.p
